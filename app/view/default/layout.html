@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="expanded">
+<head>
+    <meta charset="utf-8" />
+    <title>{$seo_title}</title>
+    <meta name="keywords" content="{$seo_keywords}">
+    <meta name="description" content="{$seo_description}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    
+    <link type="text/css" href="{$rootUrl}/static/wslim/css/layout.css" rel="stylesheet" />
+    <script src="{$rootUrl}/static/jquery-2.2.4.min.js"></script>
+</head>
+<body>
+
+<!-- 头部信息 -->
+<div class="full header-top">
+    <div class="container inline-group">
+        <div class="row">
+            <div class="col-xs-6">
+                <span>wslimphp 开发</span>
+            </div>
+            <div class="col-auto pull-right menu">
+                <a href="/category/aboutus.html">关于我们</a>
+                <a href="/category/wslimphp.html">wslimphp</a>
+                <a href="{$rootUrl}">返回首页</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- logo -->
+<div class="container gap">
+    <div class="row">
+        <div class="col-xs-5">
+            <div class="logo">
+                {widget:common:logo name="logo" echo=1} 
+            </div>
+        </div>
+        <div class="col-xs-6 pull-right">
+            <form action="/search.html" method="get" target="_blank" class="search_form">
+                <div class="input-group search-wrap">
+                    <input type="text" name="q" class="form-control" />
+                    <input type="submit" class="form-control btn btn-dark" value="搜 索" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{include 'banner'}
+
+<!-- content-template -->
+{template $__content_template__ }
+
+<!-- copyright -->
+<div class="full bg-dark gap" style="height:100px;"> 
+    <div class="container">
+        <div class="row inner-gap">
+            <div class="row gap text-center">
+                <span>版权声明: </span>{widget:common:config name="copyright" echo=1}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

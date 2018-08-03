@@ -1,0 +1,34 @@
+{
+	"name" : "wslim/wslimphp-skeleton",
+	"type" : "app",
+	"description" : "wslimphp app skeleton",
+	"keywords" : ["framework","wslimphp"],
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "gwbnet",
+			"email" : "gwbnet@126.com",
+			"homepage" : "https://wslim.cn"
+		}
+	],
+	"require" : {
+		"php" : ">=5.5.0"
+		,"wslim/wslimphp": "*"
+	},
+	"require-dev" : {
+		
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Common\\" : "common/src"
+		},
+		"files" : [
+			
+		]
+	},
+	"repositories": {
+		"packagist": {
+			"type": "composer",
+			"url": "https://packagist.org"
+		}
+	}
+}

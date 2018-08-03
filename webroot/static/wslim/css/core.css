@@ -1,0 +1,837 @@
+@charset "utf-8";
+/**
+ * framework v2.4
+ * based on bootstrap；
+ * 20170901
+**/
+@import 'bootstrap.min.css';
+@import 'font-awesome.min.css';
+
+/*********************************************************
+ * reset
+**********************************************************/
+*, *::after, *::before { box-sizing: inherit; }
+html { font-size: 16px; height:100%;}
+body{
+	font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
+	color: #333;
+	font-size: 14px;
+	font-size: 0.875rem;	  /* rem base on html*/
+	/* line-height: 1.375;	      24px*/
+	height:100%;
+	box-sizing: border-box;
+	margin:0;
+}
+img { border: 0 none; max-width: 100%; }
+a, .btn { cursor:pointer; }
+a { color: #555; }
+.h1, .h2, .h3, h1, h2, h3 {
+	font-weight: 600;
+}
+
+/*********************************************************
+ * 全局-布局元素
+**********************************************************/
+/*
+container-fluid 满屏容器，结合 bg-xx 设置背景
+container 	布局容器，用于包裹其他布局容器，默认有最大宽度和左右 padding
+row 		行布局容器，用于加入组件或内容容器，默认有负左右 margin
+content 	布局容器，用于直接放置内容或内容元素p,dl等；带左右上下padding
+list  		列表布局
+fix-top		fix布局, top, 默认高度 60px
+fix-bottom	fix布局, bottom, 默认高度60px, 上下有padding
+
+header, foorer 默认头部、底部容器，和full一致
+*/
+.container-fluid, .content, [class*=col-], .list, header, footer, section, .section {
+	position: relative;
+}
+.container 	{
+	max-width: 1170px;	/*设置宽度和padding*/
+}
+.fix-top, .fix-bottom, .fix-br {
+	vertical-align: middle;
+	position: fixed;
+	width: 100%;
+	z-index: 9999;
+	background: #fff none repeat scroll 0 0;	
+	height: 50px;
+	color: #909090;
+}
+.fix-top{
+	top:0;
+}
+.fix-bottom{
+	bottom:0;
+	border-top: 1px solid #f3f3f3;
+}
+.fix-top a, .fix-bottom a {
+	vertical-align: middle;
+}
+.fix-br {
+	bottom: 0; right: 0; 
+}
+.fix-help {
+	bottom: 50px; right: 50px; width: auto; height: auto;
+}
+
+/* column 列布局 12列式，col-group-n */
+.row > [class*=col-group] {
+    margin-left:15px; margin-right:15px; width:auto;
+}
+[class*=col-group]>* {
+	display:inline-block; overflow:hidden; float:left; 
+}
+ul[class*=col-group], [class*=col-group]>ul {
+	padding-left:0;
+}
+.col-group-1>* {
+	width: 100%;
+}
+.col-group-2>* {
+	width:50% !important;
+}
+.col-group-3>* {
+	width:33.33333333% !important;
+}
+.col-group-4>* {
+	width:25% !important;
+}
+.col-group-5>* {
+	width:20% !important;
+}
+.col-group-6>* {
+	width:16.66666666% !important;
+}
+.col-group-7>* {
+    width:14.28571428% !important;
+}
+.col-group-8>* {
+    width:12.5%;
+}
+.col-group-10>* {
+    width:10%;
+}
+.col-group-12>* {
+    width:8.33333333%;
+}
+.content { padding: 8px 15px; }
+.page-content {
+    background-color: #fff;
+    position: relative;
+    margin: 0;
+    padding: 10px 20px 24px;
+}
+
+/* 辅助类-clear float*/
+.clear-fix:after,
+.container:before, .row:before, 
+.container:after, .row:after
+,.col-group-1:before,.col-group-2:before,.col-group-3:before,.col-group-4:before,.col-group-5:before,.col-group-6:before
+,.col-group-7:before,.col-group-8:before,.col-group-10:before,.col-group-12:before
+,.col-group-1:after,.col-group-2:after,.col-group-3:after,.col-group-4:after,.col-group-5:after,.col-group-6:after
+,.col-group-7:after,.col-group-8:after,.col-group-10:after,.col-group-12:after   {
+    content: "​";
+    display: block;
+    height: 0;
+}
+.clear-fix:after, .container:after, .row:after
+,.col-group-1:after,.col-group-2:after,.col-group-3:after,.col-group-4:after,.col-group-5:after,.col-group-6:after
+,.col-group-7:after,.col-group-8:after,.col-group-10:after,.col-group-12:after{
+    clear: both;visibility:hidden;
+}
+
+/* 辅助类-边框效果*/
+.border   { border: 1px solid #e0e0e0; }
+.border-rounded { border: 1px solid #e0e0e0; border-radius: 0.1875rem; }
+.border-rounded:first-child { border-radius: 0.1875rem; }
+.border-circle  { border-radius: 100%; overflow: hidden;}
+.border-group {
+	display: table;
+	width: 100%;
+	border-collapse: collapse;
+	border: 1px solid #e0e0e0;
+}
+.border-group > * {
+	display: table-cell;
+    border: 1px solid #e0e0e0;
+    margin: 0 0 -1px -1px;
+    float: none;
+}
+
+/* 
+ * list 列表布局
+ * 1 默认元素为块级垂直排列
+ * 2 list-inline 为水平排列
+ * 3 list-horizotal 排列在一行
+*/
+.list>ul, ul.list {
+	list-style: none;
+	position: relative;
+	display: block;
+	overflow: hidden;
+	padding-left: 0;
+	margin-bottom: 0;
+}
+.list>ul>li, .list>li, .list>div, .list>a, .list>p {
+	color: #666;
+    overflow: hidden;    
+    position: relative;
+    padding: 8px 15px;	/*默认有padding*/
+	border: 1px dotted #e0e0e0;
+	border-width: 0 0 1px 0;
+}
+.list>ul>li:hover, .list>li:hover, .list>div:hover, .list>a:hover, .list>p:hover,
+.list>ul>li:focus, .list>li:focus, .list>div:focus, .list>a:focus, .list>p:focus {
+	background-color: #f6f6f6;
+	cursor: pointer;
+}
+/* list+border 容器带边框*/
+.list.border>ul>li:last-child, .list.border>li:last-child, .list.border>div:last-child, .list.border>a:last-child, .list.border>p:last-child {
+	border-bottom: 0;
+}
+
+/* list + list-inline 行内块  + .border 带边框，结合 col-group-n 可得到平均分布的排列 */
+.list-inline>ul>li, .list-inline>li, .list-inline>div, .list-inline>a, .list-inline>p
+,.list-horizontal>ul>li, .list-horizontal>li, .list-horizontal>div, .list-horizontal>a, .list-horizontal>p {
+	display: inline-block;
+	border-bottom: 0;
+	vertical-align: top;
+}
+
+/* list-horizontal */
+.list-horizontal>ul {
+	width: 9999px;
+}
+.list-horizontal>ul>li {
+	max-width: 200px;
+}
+.list-default {
+	padding: 0;
+}
+.list-default>li {
+	padding: 5px 8px;
+}
+.icon-square>ul>li, .icon-square>li {
+    list-style-type:square;
+    list-style-position:inside;
+}
+
+/* tags or list-tag */
+.list-tag ul, ul.list-tag, ul.tags, .tags ul {
+    padding-left: 0; list-style: none;
+}
+.list-tag ul>li, .list-tag>li, .list-tag>a,
+.tags > a, .tags > li, .tags>ul>li, .tag {
+    display: inline-block;
+    color: #017E66;
+    background-color: rgba(1,126,102,0.08);
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 0px 10px;
+    margin-bottom: 8px;
+}
+.list-tag li a, .tags li a, .tag li a {
+	display: block;
+}
+.list-tag .tag-label, .tag.tag-label {
+    background-color: transparent;
+}
+.list-tag .tag-home, .tag.tag-home {
+    background-color: #00ae63;
+    color: #fff;
+}
+.tag-home a {
+	color: #fff;
+}
+.list-tag ul>li:hover, .list-tag>li:hover, .list-tag>a:hover,
+.tags > a:hover, .tags > li:hover, .tags>ul>li:hover, .tag:hover, .tag:focus {
+    background-color: #017E66;
+    color: #fff;
+    text-decoration: none;
+}
+.list-tag li:hover a, .tags li:hover a, .tag:hover a {
+	color: #fff;
+}
+
+/* 列表元素多栏-float */
+.list-item {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+.item-left,
+.item-right{
+	width: 20%;
+}
+.item-body,
+.item-left,
+.item-right {
+    display: inline-block;
+    vertical-align: top;
+    float:left;
+}
+.item-right {
+	float: right;
+}
+.item-body	{
+	width: 75%;
+	position: relative;
+}
+.item-left + .item-body { 
+	margin-left:0; width: 80%; padding-left: 15px;}
+.item-right + .item-body { 
+	margin-left:0; width: 80%; padding-right: 15px;}
+.item-body:only-child {
+	width: auto;
+}
+
+
+/* image-text-block */
+.image-text-block {
+	text-align: center;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.image-text-block img {
+	width: 96%;
+	margin: 2%;
+}
+.image-text-block img + *,
+.emerge_bottom {
+    background: rgba(0, 0, 0, 0.7) none repeat scroll 0 0;
+    color: #fff;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    position: relative;
+    text-align: center;
+}
+
+/*********************************************************
+ * 全局-排版-标题元素
+**********************************************************/
+/**
+ * module-title 模块标题区
+ * <div class="module-title h3"> <i class="sign"></i>栏目 </div>
+*/
+.module-title, .list > h3 {
+    position: relative;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px 15px;
+    line-height: 1.5;
+    margin: 0;
+    /* white-space: nowrap; 有问题，碰到浮动对象会换行*/
+    border-bottom: 1px solid #e0e0e0;
+}
+.module-title i{
+	display:inline-block;
+	float:left;
+	margin-right: 10px;
+}
+.module-title > i.sign:before, .module-title h1 > i.sign:before {
+	background-color: #19a97b;
+	content: " ";
+	float: left;
+	line-height: 1.5rem;
+	height: 1.5rem;
+	width: 5px;
+}
+.module-title.h3 > i.sign, .module-title h3 > i.sign {
+	padding-top: 6px;
+}
+.module-title.h4 > i.sign, .module-title h4 > i.sign {
+    padding-top: 2px;
+}
+.module-title .sub {
+    color: #777;
+    font-weight: 500;
+    font-size: 1rem;
+    display: inline-block;
+    margin-left: 10px;
+}
+.module-title .sub a, .module-title .triggers a {
+	display: inline-block;
+	margin-right: 10px;
+	margin-left: 10px;
+	line-height: 1rem;
+	border-right: 1px solid #e0e0e0;
+	text-align: center;
+	font-size: 1rem;
+}
+.module-title .sub a:last-child, .module-title .triggers a:last-child {
+	border:0;
+}
+.module-title .triggers {
+    position: absolute;
+    text-align: right;
+    right:0px;
+    bottom: 10px;
+    width:auto;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.module-title .triggers a.active, .module-title .triggers a:hover  {
+    border-bottom: 2px solid #19a97b;
+}
+.module-title a.more, .module-title .triggers a.more {
+	font-size: 0.875rem;
+	line-height: inherit;	
+    text-align: right;
+    color: #333;
+    border-bottom: 0;
+}
+
+.list > .module-title, .module-title {
+	background-color: #f3f3f3;
+}
+.list > h3 {
+	font-size: 1rem;
+}
+.list > h4 {
+    font-size: 0.875rem;
+}
+/*********************************************************
+ * 全局-排版-文本元素
+ * 使用 p,dl 等去排版文字
+ * 使用 span 去控制字体样式，粒度会比较细
+ * 使用 del,mark,pre,code 等控制格式
+ * 颜色在后边和背景色、按钮颜色等集中位置根据主题颜色统一重写
+**********************************************************/
+
+dt  { font-weight: bold; }
+/* list + dl */
+.list dl {
+	margin:0;
+}
+
+span {
+	word-wrap: break-word;
+	white-space: normal;
+	text-overflow: ellipsis;
+}
+span ~ span{
+	margin-left: 15px;
+}
+
+/*标题*/
+.title, .title-lg {
+	overflow: hidden;
+	margin-left: 0;
+	margin-bottom: 10px;
+}
+.title-lg {
+	font-size: 1rem;
+	font-weight: bold;
+}
+.title-lg, .title-lg a {
+	color: #23527c;
+}
+
+/*描述*/
+.desc {
+	display:block;
+	color: #b8b8b8;
+	font-size: 0.875rem;
+	margin-left: 0;
+	margin-bottom: 10px;
+}
+
+b, strong, .strong, .key	{ font-weight: bold; }
+.value	{ word-wrap: break-word; white-space: normal; font-weight: normal; }
+del, s, .del	{ text-decoration:line-through; }
+ins, u, .warn	{ text-decoration:underline; }
+
+.text-center, .text-center>p, .text-center>ul>li, .text-center>li, .text-center>a, .text-center>span { text-align: center; }
+.text-right, .text-right>p, .text-right>ul>li, .text-right>li, .text-right>a, .text-right>span{ text-align: right; }
+
+/* 附加样式：块级 排列*/
+.btn.block, button.block, input.block, select.block, textarea.block, 
+.block-group>.btn,.block-group input, .block-group select, .block-group textarea	{ 
+	width: 100%;
+}
+
+/* article */
+.article {
+	line-height: 1.8;
+}
+.article>div, .article-p {
+	margin-bottom: 15px;
+}
+.article-header {
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.article h3 {
+	margin-top: 1.4em;
+}
+.article h4 {
+    margin-top: 1.2em;
+}
+.article ol ul, .article ul ol {
+	padding-left: 2em;
+}
+
+/*********************************************************
+ * 组件
+**********************************************************/
+/* 组件-更多链接*/
+.more, .img-more {
+	display: inline-block;
+	float: right;
+	padding: 0;
+	z-index: 10;
+}
+.more a {
+	display: inline;
+	padding:0;
+}
+.more a:hover 	{ color: #19A97B; }
+.img-more 		{ border-radius: 50%; }
+.img-more a 	{ display:block; text-align:center; }
+
+/* 组件-tabs */
+.tab { border: 1px solid #e0e0e0;}
+.tab-header, .tab-header>ul, .tab-content>ul {
+	list-style: none;
+	padding-left: 0;
+	margin-bottom: 0;
+}
+.tab-header {
+	border-bottom: 1px solid #e0e0e0;
+    clear: both;
+    height: 35px;
+}
+.tab-header li, .tab-header > a {    
+    float: left;
+    height: 35px;
+    line-height:34px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0 15px;
+	text-align: center;
+	border-right: 1px solid #e0e0e0;
+}
+.tab-header li.active, .tab-header > a.active {
+    border-bottom: 1px solid #fff;
+    color: #dd6e4c;
+}
+.tab-content > ul > li{
+	display:none;
+	padding: 10px 15px;
+}
+.tab-content  > ul > li.active {
+	display: block;
+}
+
+/* 组件-step步骤 */
+.step-container {
+	position: relative;
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+}
+.step-container > .step {
+	position: relative;
+	top: 15px;
+	width: 100%;
+	height: 10px;
+	z-index:20;
+	float: left;
+	text-align: center;
+}
+.step-container.steps-3 .step{
+	width: 50%;
+}
+.step-container.steps-4 .step{
+	width: 33.33333333%;
+}
+.step-container[class*=steps] > .step:last-child {
+	position:absolute;
+	right:0;
+	margin-right:0;
+	margin-left:0;
+	padding:0;
+	width: 80px;
+}
+.step-container > .step i{
+	position: absolute;
+	z-index: 20;
+	display: block;
+	top: -15px;
+	height: 40px;
+	line-height: 40px;
+	width: 80px;
+	background-color: #eee;	
+	border: 1px solid #eee;
+	border-radius: 5px;
+	word-wrap: break-word;
+}
+.step-container > .step:first-child i,
+.step-container > .step:last-child i{
+	left: 0;
+}
+.step-tit-box > .step i{
+	left: -40px;	
+}
+.step-container > .step span{
+	position: absolute;
+	left:0;
+	z-index: 10;
+	display: block;
+	width: 100%;
+	height: 10px;
+	background-color: #eee;	
+	margin-top:0;
+}
+.step-container > .step.finished i, .step-container > .step.finished span{	
+	background-color: #dd6e4c;
+	border: 1px solid #dd6e4c;
+	color: #fff;
+}
+
+/*组件-图形验证码*/
+.captcha-box img, .captcha-box a {
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    width: auto;
+}
+
+/* component to-top */
+.scroll-to-top{
+	position:fixed;_position:absolute;z-index:9999;right:15px;bottom:50px;width:45px;height:45px;border-radius:50%;font-size:14px;
+	text-align:center;
+	border:solid 1px #cacaca;
+	cursor:pointer;
+	background:#fff;
+	text-align:center;
+	display:block;
+	filter:alpha(opacity=70);
+    opacity: 0.7;
+
+}
+.scroll-to-top.off{
+	display:none;
+	-moz-transition-duration:250ms;
+	-webkit-transition-duration:250ms;
+}
+.scroll-to-top i{text-align:center;font-size:20px;line-height:45px;color:#999;}
+
+/* component swipe */
+.swiper-container {overflow:hidden;position:relative}
+.swiper-wrapper   {position:relative;}
+.swiper-slide img   {width:100%;}
+
+/* component slidebox */
+.slidebox{ width:100%; height:305px; overflow:hidden; position:relative; border:1px solid #ddd;  }
+    .slidebox ul { list-style: none; padding-left:0; }
+    .slidebox .hd{ height:15px; overflow:hidden; position:absolute; right:15px; bottom:10px; z-index:3; }
+    .slidebox .hd ul{ overflow:hidden; zoom:1; float:right;}
+    .slidebox .hd ul li{ float:left; margin-right:5px;  width:10px; height:10px; border-radius: 50%; text-indent:-999px; background:#ccc; cursor:pointer; }
+    .slidebox .hd ul li.on{ background:#19A97B; }
+    .slidebox .bd{ position:relative; height:100%; z-index:0;   }
+    .slidebox .bd li{ zoom:1; vertical-align:middle; }
+    .slidebox .bd img{ width: 100%; height:auto; max-height:100%;display:block;  }
+
+    .ifocus_opdiv { position:absolute; left:0; bottom:0; width:100%; height:35px; background:#000; opacity:0.5; -moz-opacity:0.5; filter:alpha(opacity=50); z-index:1; }
+    .ifocus_tx { height:35px; position:absolute; bottom:0; left:8px; color:#FFF; overflow:hidden; z-index:2; }
+    .ifocus_tx ul li{ height:35px; line-height:35px; }
+    .ifocus_tx ul li a{ color:#fff; font-size:14px; font-weight: bold;}
+
+    /* next/prev button */
+    .slidebox .prev,
+    .slidebox .next{ position:absolute; left:3%; top:50%; margin-top:-25px; display:block; width:32px; height:40px; background:url(../images/slider-arrow.png) -110px 5px no-repeat; filter:alpha(opacity=50);opacity:0;   }
+    .slidebox .next{ left:auto; right:3%; background-position:8px 5px; }  
+    .slidebox:hover .prev,
+    .slidebox:hover .next { opacity:0.35;  }
+    .slidebox .prevStop{ display:none;  }
+    .slidebox .nextStop{ display:none;  }
+    
+/* component simple-dialog */
+.s-dialog-mask{position:absolute;left:0px;top:0px;background-color:rgb(20, 20, 20);filter:alpha(opacity=60);opacity: 0.6;width:100%;z-index:9998;}
+.s-dialog-wrapper{
+	border-radius: 5px;color:#fff;font-size:14px;position: fixed;z-index: 9999;
+	transform-origin: 0px 0px; transform: scale(1, 1); opacity: 1;	
+}
+.s-dialog-skin-green	{ background-color: #6cb248; border:1px solid #397908;}
+.s-dialog-skin-block	{ background-color: #000; color: #fff; filter:alpha(opacity=80); opacity :0.80;}
+.s-dialog-skin-red		{ background-color: #D9434E; border:1px solid #AD0909;}
+.s-dialog-skin-grey 	{ background-color: #f3f3f3;border:1px solid #e0e0e0;color:#000; }
+.s-dialog-content		{ padding: 20px 20px;}
+.s-dialog-btn-wapper	{ margin-top: 15px; border-top: 1px solid rgba(130,128,127,.5); display:box;width:100%;}
+.s-dialog-btn-wapper a	{ -moz-box-flex:1;box-flex:1;-webkit-box-flex:1;display:block; color: #fff;padding:15px 15px;text-align:center;}
+.s-dialog-skin-grey .s-dialog-btn-wapper a {color:#000;}
+
+/* component menu */
+.leading {
+    text-align: center;
+    color: #fff;
+}
+.menu {
+	position: relative;
+}
+.menu .leading {
+    position: absolute;
+    width: 80px;
+    line-height: 40px;
+}
+.menu .leading a:hover { background-color: #565656; }
+.menu .leading + ul {
+    padding-left: 90px;
+    margin: 0;
+}
+.menu>a,.menu>ul>li,.menu>li,.menu>ul>li,.menu>li>a .menu>div { 
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    overflow: visible;
+    position: relative;
+}
+.menu li:hover>ul {
+	display:block;
+}
+.menu a { text-align:center; padding-left: 10px; padding-right: 10px;}
+.menu.large a,.menu.large li, .menu.large div{
+    font-weight: 500;
+    font-size: 1rem;
+}
+/* component dropdown-submenu */
+.dropdown-submenu .dropdown-menu {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    left: 100%;
+    top: 0;
+}
+
+/* component h space */
+.space { 
+    margin: 10px 0;
+    max-height: 1px;
+    min-height: 1px;
+    overflow: hidden;
+}
+.file-icon {
+	display: inline-blick;
+	text-align: center;
+	vertical-align: middle;
+	min-width: 16px;
+}
+.file-icon.file-zip {
+	background-image: url(../images/fileicon/zip.gif);
+}
+
+/*********************************************************
+ * 辅助类，位置放在最后
+ * 一般是作为附加样式使用，主要是控制背景色、文本颜色、大小、边框、间隔、固定位置等
+ * 色调，使用 8 种不同颜色，可以同时命名同义词 normal=default, cancel=*
+ *    default, primary, success, info, warn, danger, light, deep, dark
+ *    
+ *    
+**********************************************************/
+/* 辅助类-文本-颜色 */
+.text-light		{ color: #dff0d8; }
+.text-deep		{ color: #245580; }
+.text-dark		{ color: #777; }
+.text-green      { color: #00ae63; }
+.text-white, .text-white>a, .text-white>ul>li>a { color: #fff;}
+
+/* 辅助类-块-背景色 background */
+.bg-none    { background-color: transparent !important;}
+.bg-normal, .bg-white { background-color: #fff; color:#777 }
+.bg-primary, .bg-green { background-color: #19A97B; color: #fff; }
+.bg-success { background-color: #dff0d8; }
+.bg-info 	{ background-color: #d9edf7; }
+.bg-warn, .btn-warn 	{ background-color: #fcf8e3; }
+.bg-x-warn	{ background-color: #dd6e4c; }
+.bg-danger 	{ background-color: #f2dede; }
+.bg-x-danger	{ background-color: #f05238;color:#fff;}
+.bg-light, .btn-light	{ background-color: #f9f9f9;}
+.bg-prey { background-color: #f3f3f3;}
+.bg-deep, .btn-deep	{ background-color: #337ab7; color: #fff; }
+.bg-dark, .bg-dark>div, .btn-dark { background-color: #565656; color: #fff; }
+.bg-black  { background-color: #000; color: #fff; }
+
+.btn-dark.focus, .btn-dark:focus, .btn-dark:hover {
+    color: #fff;
+}
+
+/* 辅助类-浮动 */
+.pull-left  {float: left !important;}
+.pull-right {float: right !important; margin-right:0; }
+
+/* 辅助类-撑开页面*/
+.push-bottom, .push-bottom-2{
+	margin-bottom: 100px;
+}
+.push-bottom-2{ margin-bottom:200px; }
+
+
+/* 辅助类-容器间隔控制*/
+.gap 		{ margin-top: 10px;}
+.gap-2x      { margin-top: 20px;}
+.gap-bottom	{ margin-bottom: 10px; }
+.gap > .gap:first-child { margin-top: 0;}
+.inner-gap	{ padding-top: 10px; padding-bottom: 10px;}
+.inner-gap-2x { padding-top: 20px; padding-bottom: 20px; }
+.pd10 {padding: 10px !important;}
+
+/* 子元素居中 */
+.child-center { text-align: center; }
+.child-center>* {
+	display: inline-block;
+	margin: 0 auto;
+}
+[class*=col-].child-center {
+	float: none;
+}
+
+/* 辅助类-元素块绝对在某位置，相对父元素*/
+.abs, .abs-top-left, .abs-top-right, .abs-bottom-left, .abs-bottom-right{
+	position: absolute;
+}
+.abs-top-left   { top:0; left:0;}
+.abs-top-right  { top:0; right:0;}
+.abs-bottom-left    { bottom:0; left:0;}
+.abs-bottom-right   { bottom:0; right:0;}
+.abs-top-left.abs-offset-20 {
+	top: 20px; left: 20px;
+}
+.abs-top-right.abs-offset-20 {
+    top: 20px; right: 20px;
+}
+.abs-bottom-left.abs-offset-20 {
+    bottom: 20px; left: 20px;
+}
+.abs-bottom-right.abs-offset-20 {
+    bottom: 20px; right: 20px;
+}
+
+@media screen and (max-width:640px){
+    .container { width: 100%;}
+	.col-group-2>*,
+	.col-group-3>*,
+	.col-group-4>* {
+	    width:50% !important;
+	}
+	.col-group-5>*,
+	.col-group-6>*,
+	.col-group-7>*,
+	.col-group-8>*,
+	.col-group-9>*,
+	.col-group-10>*,
+	.col-group-11>*,
+	.col-group-12>* {
+	    width:100% !important;
+	}
+}
+
+@media screen and (min-width:641px){
+    .container { width: 90%; }
+}
+

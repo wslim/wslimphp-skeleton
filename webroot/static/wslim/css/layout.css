@@ -1,0 +1,112 @@
+@CHARSET "UTF-8";
+@import 'core.css';
+
+/* header */
+header {
+	margin-bottom: 20px;
+}
+.header-top {
+	background: #f9f9f9 none repeat scroll 0 0;
+	border-bottom: 1px solid #eee;
+	height: 35px;
+	line-height: 35px;
+	position: relative;
+	width: 100%;
+	z-index: 300;
+	color: #999;
+}
+.header-top a {
+	color: #999; padding-left: 10px; padding-right: 10px;
+}
+
+/* header logo */
+.logo { float:left; height: 50px; overflow: hidden; }
+.logo a, .logo img { height:50px; vertical-align: middle;}
+
+.search-wrap {
+	width: 100%;
+	margin-top: 10px;
+}
+.search-wrap input:first-child {
+	width: 75%;
+}
+.search-wrap input:last-child {
+    width: 25%;
+}
+
+/* main-nav */
+.main-nav a {
+	color: #fff;
+}
+.main-nav > ul > li:hover > a, .main-nav > ul > li > a:hover, .main-nav > ul > li > a.active, .main-nav > li > a:hover, .main-nav > li > a.active{
+    background-color: #f47912;
+}
+
+footer {
+	margin-top: 20px;
+	background: #000;
+	color: #fff;
+	min-height: 150px;
+}
+footer a {
+	color: #fff;
+}
+
+.fix-help li {
+	background: #f8f8f8 none repeat scroll 0 0;
+	border: 1px solid #eee;
+	cursor: pointer;
+	height: 32px;
+	padding: 4px;
+	text-align: center;
+	width: 32px;
+}
+
+.flat-list img {
+	width: 100%;
+	height: 65px;
+}
+
+/* search kind list */
+.search-kind-list {
+	padding:0px 20px 20px;
+}
+.search-kind-list dl {
+  border-bottom: 1px dotted #ccc;
+  overflow: hidden;
+  padding: 10px 0;
+}
+.search-kind-list dl:last-child {
+	border:0;
+}
+.search-kind-list .items-body {
+	height: 1.5625rem;
+}
+.search-kind-list .items-body .active {
+  color: #e4393c;
+}
+.search-kind-list .items-body a:hover {
+	color: #e4393c;
+	text-decoration:underline;
+}
+.search-kind-list .items-body a {
+  display: inline-block;
+  margin-right: 20px;
+}
+.search-kind-list .items-body .fa-square-o {
+	display: none;
+}
+.search-kind-list .items-body-content {
+	padding-bottom: 5px;
+}
+.search-kind-list .items-child-content {
+	padding: 5px 0;
+	border-top: 1px dotted #ccc;
+	display: none;
+}
+.search-kind-list .show-child {
+	margin-left: 10px;
+}
+
+
+

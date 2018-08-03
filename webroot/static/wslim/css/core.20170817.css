@@ -1,0 +1,1699 @@
+@charset "utf-8";
+/**
+ * 基础框架样式 v2.2
+ * 20170715
+ 
+ * 更新内容：
+ * 合并了之前的 reset 和 common
+ * 借鉴了bootstrap的部分东西，主要思路是尽量不改变bootstrap的部分，进行简化扩展，更针对于轻量级使用；
+ * 
+**/
+/*********************************************************
+ * reset 样式
+**********************************************************/
+*, *::after, *::before { box-sizing: inherit; }
+html { font-size: 16px; height:100%;}
+body{
+	font-family: "Open Sans",Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑","STHeiti","WenQuanYi Micro Hei",SimSun,sans-serif;
+	text-rendering: optimizelegibility;
+	color: #535353;
+	font-size: 14px;
+	font-size: 0.875rem;	  /* rem 基于html*/
+	line-height: 1.5625rem;	   /* 25px*/
+	height:100%;
+	box-sizing: border-box;
+	margin:0;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, 
+form, fieldset, legend, input, textarea, p, blockquote, th, td, span, a{
+	margin:0;padding:0
+}
+a {text-decoration: none; color: #535353; }
+table {border-collapse:collapse;border-spacing:0}
+fieldset, iframe{ border:0; }
+address, caption, cite, code, dfn, em, strong, th, var, i {font-weight:normal;font-style:normal}
+ol, ul, li {list-style:none}
+caption, th {text-align:left}
+h1,h2,h3,h4,h5,h6{ font-size:100%;font-weight:normal }
+blockquote:before, blockquote:after, q:before, q:after {content:''}
+abbr, acronym { border:0;font-variant:normal}
+/* to preserve line-height and selector appearance */
+sup {vertical-align:text-top}
+sub {vertical-align:text-bottom}
+/*input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit; vertical-align:middle;}*/
+/*to enable resizing for IE*/
+input, textarea, select {*font-size:100%}
+input, textarea, select, button { text-transform: none;}
+/*because legend doesn't inherit in IE */
+legend {color:#000}
+:not(input){
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    -webkit-touch-callout:none;
+    -webkit-text-size-adjust:none;
+}
+:focus{outline:0}
+img { width: 100%; vertical-align: middle; border: 0 none; }
+a, .btn { cursor:pointer; }
+
+/*********************************************************
+ * 全局-布局元素
+**********************************************************/
+/*
+full    	满屏布局容器
+container 	布局容器，用于包裹其他布局容器，默认设置最大宽度和整体左右 padding
+row 		行布局容器，用于加入组件或内容容器，不设置 padding和margin
+cols-*		列布局容器，用于 grip 栅格式布局
+content 	布局容器，用于直接放置内容或内容元素p,dl等；带左右padding, 而其上下 padding 则使用具体的 p, dl 块进行，或使用 inner-gap 进行补充
+list  		列表布局
+fix-top		fix布局, top, 默认高度 60px
+fix-bottom	fix布局, bottom, 默认高度60px, 上下padding 10px
+
+header, foorer 默认头部、底部容器，和full一致
+*/
+.full, .container, .row, .content, [class*=cols-], .list, header, footer {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+}
+.full {width:100%;}
+.container 	{
+	max-width: 1170px;	/*设置宽度和padding*/
+}
+.container.container-content { padding: 10px;}
+.full+.full, .full+.container, .container+.full, .container+.container, .row+.row, h1+.row, h2+.row {margin-top: 10px;}
+
+@media screen and (max-width:640px){
+    #container { max-width: 640px; }
+}
+.row 	{  }
+.content	{ padding: 0 10px; }
+
+.fix-top, .fix-bottom {
+	vertical-align: middle;
+	position: fixed;
+	width: 100%;
+	z-index: 9999;
+	background: #fff none repeat scroll 0 0;	
+	height: 60px;	
+	color: #909090;
+}
+.fix-top{
+	top:0;
+}
+.fix-bottom{
+	bottom:0;
+	border-top: 1px solid #e9e9e9;
+	padding-top: 10px;
+}
+
+/* 附加样式：container-full容器上下边框控制*/
+body>.full[class*=bg-] { border:1px solid #eee; border-width:1px 0 0}
+
+/* column 列布局 12列式，cols-n 加s表示占用n/12个宽度  gap- 前缀表示块间有间隔，*/
+.cols,
+.cols-12, .cols-11, .cols-10, .cols-9, .cols-8, .cols-7
+,.cols-6, .cols-5, .cols-4, .cols-3, .cols-2, .cols-1
+,[class*=gap-cols-]
+,[class*=cols-group]>ul>li, [class*=cols-group]>li, [class*=cols-group]>div, [class*=cols-group]>a {
+	display:inline-block;overflow:hidden;float:left;
+}
+.gap-cols-12, .gap-cols-11, .gap-cols-10, .gap-cols-9, .gap-cols-8, .gap-cols-7,
+.gap-cols-6, .gap-cols-5, .gap-cols-4, .gap-cols-3, .gap-cols-2, .gap-cols-1	{
+	margin-right:0.66666667%;
+}
+.cols-12, .gap-cols-12	{width:100%;margin-right:0;}
+.cols-11	{width:91.66666666%;}
+.cols-10	{width:83.33333333%;}
+.cols-9	{width:75%;}
+.cols-8	{width:66.66666666%;}
+.cols-7	{width:58.33333333%;}
+.cols-6	{width:50%;}
+.cols-5	{width:41.66666666%;}
+.cols-4	{width:33.33333333%;}
+.cols-3	{width:25%;}
+.cols-2	{width:16.66666666%;}
+.cols-1	{width:8.33333333%;}
+.gap-cols-11	{width:91%;}
+.gap-cols-10	{width:82.66666667%;}
+.gap-cols-9	{width:74.33333334%;}
+.gap-cols-8	{width:66%;}
+.gap-cols-7	{width:57.66666667%;}
+.gap-cols-6	{width:49.33333334%;}
+.gap-cols-5	{width:41%;}
+.gap-cols-4	{width:32.66666667%;}
+.gap-cols-3	{width:24.33333334%;}
+.gap-cols-2	{width:16%;}
+.gap-cols-1	{width:7.66666667%;}
+.cols-main {width:66.66666666%;}
+.cols-site {width:33.33333333%;}
+.gap-cols-main {width:66%;}
+.gap-cols-side {width:32.66666667%;}
+
+[class*=cols-]+[class*=cols-]:last-child {
+	float:right; margin-right:0;
+}
+/* offset */
+.cols-offset-11	{ margin-left:91.66666666%;}
+.cols-offset-10	{ margin-left:83.33333333%;}
+.cols-offset-9	{ margin-left:75%;}
+.cols-offset-8	{ margin-left:66.66666666%;}
+.cols-offset-7	{ margin-left:58.33333333%;}
+.cols-offset-6	{ margin-left:50%;}
+.cols-offset-5	{ margin-left:41.66666666%;}
+.cols-offset-4	{ margin-left:33.33333333%;}
+.cols-offset-3	{ margin-left:25%;}
+.cols-offset-2	{ margin-left:16.66666666%;}
+.cols-offset-1	{ margin-left:8.33333333%;}
+
+/*附加样式：容器子元素宽度按组控制，用于一行多个div排列*/
+.cols-group-2>ul>li, .cols-group-2>li, .cols-group-2>div, .cols-group-2>a {
+	width:50% !important;
+}
+.cols-group-3>ul>li, .cols-group-3>li, .cols-group-3>div, .cols-group-3>a {
+	width:33.33333333% !important;
+}
+.cols-group-4>ul>li, .cols-group-4>li, .cols-group-4>div, .cols-group-4>a {
+	width:25% !important;
+}
+.cols-group-5>ul>li, .cols-group-5>li, .cols-group-5>div, .cols-group-5>a {
+	width:20% !important;
+}
+.cols-group-6>ul>li, .cols-group-6>li, .cols-group-6>div, .cols-group-6>a {
+	width:16.66666666% !important;
+}
+.cols-group-7>ul>li, .cols-group-7>li, .cols-group-7>div, .cols-group-7>a {
+    width:14.28571428% !important;
+}
+.cols-group-8>ul>li, .cols-group-8>li, .cols-group-8>div, .cols-group-8>a {
+    width:12.5%;
+}
+.cols-group-10>ul>li, .cols-group-10>li, .cols-group-10>div, .cols-group-10>a {
+    width:10%;
+}
+.cols-group-12>ul>li, .cols-group-12>li, .cols-group-12>div, .cols-group-12>a {
+    width:8.33333333%;
+}
+[class*="gap-cols-group-"]>div {
+	margin-bottom: 10px;
+}
+.gap-cols-group-2>ul>li, .gap-cols-group-2>li, .gap-cols-group-2>div, .gap-cols-group-2>a {
+	width:49.33333334%;margin-right:0.66666666%;
+}
+.gap-cols-group-3>ul>li, .gap-cols-group-3>li, .gap-cols-group-3>div, .gap-cols-group-3>a {
+	width:32.66666667%;margin-right:0.66666666%;
+}
+.gap-cols-group-4>ul>li, .gap-cols-group-4>li, .gap-cols-group-4>div, .gap-cols-group-4>a {
+	width:24.33333334%;margin-right:0.66666666%;
+}
+.gap-cols-group-5>ul>li, .gap-cols-group-5>li, .gap-cols-group-5>div, .gap-cols-group-5>a {
+	width:19.33333334%;margin-right:0.66666666%;
+}
+.gap-cols-group-6>ul>li, .gap-cols-group-6>li, .gap-cols-group-6>div, .gap-cols-group-6>a {
+	width:16%;margin-right:0.66666666%;
+}
+.gap-cols-group-2>ul>li:nth-child(2n), .gap-cols-group-2>li:nth-child(2n), .gap-cols-group-2>div:nth-child(2n), .gap-cols-group-2>a:nth-child(2n), 
+.gap-cols-group-3>ul>li:nth-child(3n), .gap-cols-group-3>li:nth-child(3n), .gap-cols-group-3>div:nth-child(3n), .gap-cols-group-3>a:nth-child(3n),
+.gap-cols-group-4>ul>li:nth-child(4n), .gap-cols-group-4>li:nth-child(4n), .gap-cols-group-4>div:nth-child(4n), .gap-cols-group-4>a:nth-child(4n),
+.gap-cols-group-5>ul>li:nth-child(5n), .gap-cols-group-5>li:nth-child(5n), .gap-cols-group-5>div:nth-child(5n), .gap-cols-group-5>a:nth-child(5n) {
+	float:right;margin-right:0
+}
+
+/* 
+ * list 列表布局
+ * 1 默认元素为块级垂直排列
+ * 2 inline-list 为水平排列
+*/
+.list { 
+	
+}
+.list>ul{
+	position: relative;
+	display: block;
+	overflow: hidden;
+}
+.list>ul>li, .list>li, .list>div, .list>a, .list>p {
+	color: #555;
+	display: block; 
+    overflow: hidden;    
+    position: relative;
+    padding: 5px 10px;	/*默认有padding*/
+	border: 1px dotted #e9e9e9;
+	border-width: 0 0 1px 0;
+}
+.list>ul>li:hover, .list>li:hover, .list>div:hover, .list>a:hover, .list>p:hover,
+.list>ul>li:focus, .list>li:focus, .list>div:focus, .list>a:focus, .list>p:focus {
+	background-color: #f6f6f6;
+}
+/* list+border 容器带边框*/
+.list.border>ul>li:last-child, .list.border>li:last-child, .list.border>div:last-child, .list.border>a:last-child, .list.border>p:last-child {
+	border-bottom: 0;
+}
+
+
+/* inline-list 水平排列  + .border 带边框，结合 cols-group-n 可得到平均分布的排列 */
+.inline-list>ul>li, .inline-list>li, .inline-list>div, .inline-list>a, .inline-list>p {
+	display: inline-block;
+	float: left;
+    border-bottom: 0;
+}
+/* inline-list+border 容器带边框，默认为子元素加边框*/
+.inline-list.border>ul>li, .inline-list.border>li, .inline-list.border>div, .inline-list.border>a, .inline-list.border>p {
+    border: 1px solid #e9e9e9;
+    border-width: 1px 0 0 1px;
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+/* border-list 元素带边框*/
+.border-list>ul>li, .border-list>li, .border-list>div, .border-list>a, .border-list>p{
+    border: 1px solid #e9e9e9;
+    border-width: 1px;
+    margin-bottom: 10px;
+}
+
+/* 列表元素多栏-float/table-cell*/
+.list .item-left,
+.list .item-right{
+	width: 20%;
+	
+}
+.list .item-body,
+.list .item-left,
+.list .item-right {
+    display: inline-block;
+    vertical-align: top;
+    float:left;
+}
+.list .item-right {
+	float: right;
+}
+.list .item-body	{
+	position: relative;
+	zoom: 1;
+	width: 80%;
+}
+.item-left + .item-body { padding-left: 10px; }
+
+/*附加样式：分组的容器子元素padding控制*/
+.content-group>ul>li, .content-group>li, .content-group>div, .content-group>p {
+	padding: 5px 10px;
+}
+.row-content-group>ul>li, .row-content-group>li, .row-content-group>div, .row-content-group>p {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+.column-content-group>ul>li, .column-content-group>li, .column-content-group>div, .column-content-group>p {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+/*附加样式：分组的list容器子元素padding控制，默认为 content-group 样式*/
+.list.no-space>ul>li, .list.no-space>li, .list.no-space>div, .list.no-space>p,
+.list>ul>li.no-space, .list>li.no-space, .list>div.no-space {
+	padding: 0;
+}
+
+
+/*********************************************************
+ * 全局-排版-标题元素
+**********************************************************/
+/*hx 标题行*/
+h1{
+    font-size: 1.5rem;  
+}
+h2{
+    font-size: 1.143rem;
+}
+h3{
+    font-size: 0.875rem;
+}
+/*module-title 模块标题区*/
+.module-title {
+    position: relative;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px;
+}
+.module-title{
+	/* white-space: nowrap; 有问题，碰到浮动对象会换行*/
+	/* border-bottom: 1px solid #e9e9e9;*/
+}
+.module-title i{
+	display:inline-block;
+	float:left;
+	height: 1.5rem;
+	text-indent: 10px;
+}
+.module-title > i.sign:before, .module-title h1 > i.sign:before {
+	background-color: #19a97b;
+	content: " ";
+	float: left;
+	height: 1.5rem;
+	width: 5px;
+}
+.module-title .i:before {
+	font-size:20px;
+}
+.module-title h1, .module-title h2 {
+	display:inline-block;
+}
+.module-title .sub {
+    color: #777;
+    font-weight: 400;
+    font-size: 0.875rem;
+    display: inline-block;
+    margin-left: 10px;
+}
+.module-title .sub a, .module-title .triggers a {
+	display: inline-block;
+	padding-right: 10px;
+	padding-left: 10px;
+	line-height: 1rem;
+	border-right: 1px solid #e9e9e9;
+	text-align: center;
+}
+.module-title .sub a:last-child, .module-title .triggers a:last-child {
+	border:0;
+}
+.module-title .triggers {
+    position: absolute;
+    text-align: right;
+    right:0px;
+    bottom: 10px;
+    width:auto;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+.module-title .triggers a.active  {
+    border-bottom: 2px solid #19a97b;
+}
+.module-title a.more, .module-title .triggers a.more,
+h1 > a.more, h2 > a.more, h3 > a.more {
+	font-size: 0.875rem;
+	line-height: inherit;	
+    text-align: right;
+    color: #333;
+    border-bottom: 0;
+}
+
+
+/*********************************************************
+ * 全局-排版-文本元素
+ * 使用 p,dl 等去排版文字
+ * 使用 span 去控制字体样式，粒度会比较细
+ * 使用 del,mark,pre,code 等控制格式
+ * 颜色在后边和背景色、按钮颜色等集中位置根据主题颜色统一重写
+**********************************************************/
+p,dl	{ margin-top: 0.5rem; text-indent: 2rem; }
+dl { display: block; }
+dt		{ font-weight: bold; }
+.dl-horizotal, .list dl { display: block; }
+.dl-horizontal dt, .list dt {
+	clear: left;
+	float: left;
+	overflow: hidden;
+	text-align: right;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 25%;
+}
+.dl-horizontal dd, .list dd { 
+	text-align: left;
+}
+dl dd + dd:last-child { float: right; }
+
+/* list + dl */
+.list dl {
+	margin:0;
+}
+
+span {
+	word-wrap: break-word;
+	white-space: normal;
+	text-overflow: ellipsis;
+}
+span ~ span{
+	margin-left: 10px;
+}
+.arrow {
+  display: block;
+  font-size: 18px;
+  height: 14px;
+  line-height: 14px;
+  padding: 0;
+  position: relative;
+  float: right;
+  right: 10px;
+  text-align: center;
+  text-shadow: none;
+  top: 5px;
+  margin-left: 15px;
+  width: 14px !important;
+}
+/*中心内容*/
+.lead {
+	font-size: 1.1428rem;
+	font-weight: 600;
+	line-height: 1.4rem;
+	margin-bottom: 15px;
+	display: inline-block;
+}
+/*标题*/
+.title{
+	display: block;
+	max-height: 48px;
+	font-weight: bold;
+	overflow: hidden;
+	margin-left: 0;
+}
+/*描述*/
+.desc {
+	display:block;
+	color: #b8b8b8;
+	font-size: 0.875rem;
+	margin-left: 0;
+}
+/*行内块*/
+span.flag {
+	display:inline-block;
+	padding: 2px 5px;
+}
+b, strong, 
+.key	{ font-weight: bold; }
+.value	{ word-wrap: break-word; white-space: normal; font-weight: normal; }
+del, s, 
+.del	{ text-decoration:line-through; }
+ins, u, .warn	{ text-decoration:underline; }
+small 			{ font-size: 85%;}
+
+.text-left 	{ text-align: left; }
+.text-left 	{ text-align: left; }
+.text-left 	{ text-align: left; }
+.text-center, .text-center>p, .text-center>ul>li, .text-center>li, .text-center>a, .text-center>span { text-align: center; }
+.text-right, .text-right>p, .text-right>ul>li, .text-right>li, .text-right>a, .text-right>span{ text-align: right; }
+.text-justify 	{ text-align: justify; }
+.text-nowrap 	{ white-space: nowrap; }
+.text-lowercase {
+  text-transform: lowercase;
+}
+.text-uppercase {
+  text-transform: uppercase;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
+abbr[data-original-title], abbr[title] {
+    border-bottom: 1px dotted #777;
+    cursor: help;
+}
+abbr[title] {
+    border-bottom: 1px dotted;
+}
+address {
+    font-style: normal;
+    line-height: 1.42857;
+    margin-bottom: 20px;
+}
+blockquote {
+	border-left: 5px solid #eee;
+	font-size: 17.5px;
+	margin: 0 0 20px;
+	padding: 10px 20px;
+}
+blockquote .small, blockquote footer, blockquote small {
+	color: #777;
+	font-size: 80%;
+	line-height: 1.42857;
+}
+.blockquote-reverse, blockquote.pull-right {
+	border-left: 0 none;
+	border-right: 5px solid #eee;
+	padding-left: 0;
+	padding-right: 15px;
+	text-align: right;
+}
+/* 格式控制 */
+code {
+  background-color: #f9f2f4;
+  border-radius: 4px;
+  color: #c7254e;
+  font-size: 90%;
+  padding: 2px 4px;
+}
+pre {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333;
+  display: block;
+  font-size: 13px;
+  line-height: 1.42857;
+  margin: 0 0 10px;
+  padding: 9.5px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+/*********************************************************
+ * 全局-按钮
+**********************************************************/
+.btn {
+    background-color: #fff;    
+    color: #333;
+    background-image: none;
+    border: 1px solid transparent;
+    border-color: #ccc;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 32px;
+    height: 34px;
+    -moz-user-select: none;
+    cursor: pointer;   
+    margin-bottom: 0;
+    padding: 0 15px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 1px rgba(0, 0, 0, 0.075);
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);  
+}
+
+/*********************************************************
+ * 全局-表单元素
+**********************************************************/
+input, select, textarea{
+	font-size: 14px;-webkit-appearance:none;
+	border:1px solid #ccc;
+	line-height: 29px;
+	hieght: 30px;
+	padding: 6px 12px;
+	width: 100%;
+}
+input[type=button] { border:0; }
+input {	vertical-align: middle;}
+select option	{	text-indent: 0px;	line-height:30px; }
+textarea	{height:60px;width: 100%;}
+input[type="checkbox"], input[type="radio"] {
+    line-height: normal;
+    margin: 4px 0 0;
+    width: auto;
+}
+.checkbox, .radio {
+    display: block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    position: relative;
+}
+.checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"], .radio input[type="radio"], .radio-inline input[type="radio"] {
+    margin-left: -20px;
+    position: absolute;
+}
+
+/* 统一效果控制，用于 input, textarea, select
+ */
+.form-control {
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+	color: #555;
+	display: block;
+	font-size: 14px;
+	height: 34px;
+	line-height: 1.42857;
+	padding: 6px 12px;
+	transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+	
+}
+textarea.form-control {
+    height: auto;
+}
+.form-control::-moz-placeholder {
+    color: #999;
+    opacity: 1;
+}
+.form-control:focus, .form-control.active	{
+	border-color: rgba(82, 168, 236, 0.8);
+	box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+	outline: 0 none;
+}
+.form-control[disabled], fieldset[disabled] .form-control {
+	cursor: not-allowed;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+	background-color: #eee;
+	opacity: 1;
+}
+.has-success .form-control {
+  border-color: #3c763d;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.has-success .checkbox, .has-success .checkbox-inline, .has-success .control-label, .has-success .help-block, .has-success .radio, .has-success .radio-inline, .has-success.checkbox label, .has-success.checkbox-inline label, .has-success.radio label, .has-success.radio-inline label {
+  color: #3c763d;
+}
+.has-warning .form-control {
+  border-color: #8a6d3b;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.has-warning .checkbox, .has-warning .checkbox-inline, .has-warning .control-label, .has-warning .help-block, .has-warning .radio, .has-warning .radio-inline, .has-warning.checkbox label, .has-warning.checkbox-inline label, .has-warning.radio label, .has-warning.radio-inline label {
+  color: #8a6d3b;
+}
+.has-error .form-control {
+  border-color: #a94442;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+  color: #a94442;
+}
+/* 右侧带反馈图标-使用span绝对定位*/
+.form-control-feedback {
+	display: block;
+	height: 34px;
+	line-height: 34px;
+	pointer-events: none;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 34px;
+	z-index: 2;
+}
+.has-feedback label ~ .form-control-feedback {
+    top: 25px;
+}
+.has-feedback .form-control {
+	padding-right: 42.5px;
+}
+.has-success .form-control-feedback {
+    color: #3c763d;
+}
+.has-warning .form-control-feedback {
+  	color: #8a6d3b;
+}
+.has-error .form-control-feedback {
+  	color: #a94442;
+}
+
+
+/* 带 label 的表单*/
+label {
+    display: inline-block;
+    font-weight: 700;
+    margin-bottom: 5px;
+    max-width: 100%;
+}
+.checkbox label, .radio label {
+    cursor: pointer;
+    font-weight: 400;
+    margin-bottom: 0;
+    min-height: 20px;
+    padding-left: 20px;
+}
+/* 行组 */
+.form-group {
+    
+}
+
+/* 输入组，实现左右带其他控件的显示 */
+.input-group {
+    border-collapse: separate;
+    display: table;
+    position: relative;
+}
+.input-group-addon {
+	background-color: #eee;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	color: #555;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1;
+	padding: 6px 12px;
+	text-align: center;
+}
+.input-group-addon:first-child {
+    border-right: 0 none;
+}
+.input-group .form-control, .input-group-addon, .input-group-btn {
+  	display: table-cell;
+}
+.input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group > .btn, .input-group-btn:first-child > .dropdown-toggle, .input-group-btn:last-child > .btn-group:not(:last-child) > .btn, .input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.input-group-addon:last-child {
+    border-left: 0 none;
+}
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:first-child > .btn-group:not(:first-child) > .btn, .input-group-btn:first-child > .btn:not(:first-child), .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group > .btn, .input-group-btn:last-child > .dropdown-toggle {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+/* inline 排列 */
+.form-inline .form-group {
+	display: inline-block;
+	margin-bottom: 0px;
+	vertical-align: middle;
+}
+.form-inline .form-control {
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+}
+.form-inline .input-group {
+    display: inline-table;
+    vertical-align: middle;
+}
+.form-inline .input-group .form-control, .form-inline .input-group .input-group-addon, .form-inline .input-group .input-group-btn {
+    width: auto;
+}
+.form-inline .checkbox, .form-inline .radio {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0;
+    vertical-align: middle;
+}
+.form-inline .checkbox label, .form-inline .radio label {
+    padding-left: 0;
+}
+.form-inline .checkbox input[type="checkbox"], .form-inline .radio input[type="radio"] {
+    margin-left: 0;
+    position: relative;
+}
+.checkbox-inline, .radio-inline {
+	cursor: pointer;
+	display: inline-block;
+	font-weight: 400;
+	margin-bottom: 0;
+	padding-left: 20px;
+	position: relative;
+	vertical-align: middle;
+}
+.checkbox-inline + .checkbox-inline, .radio-inline + .radio-inline {
+    margin-left: 10px;
+    margin-top: 0;
+}
+.checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"], .radio input[type="radio"], .radio-inline input[type="radio"] {
+	margin-left: -20px;
+	position: absolute;
+}
+
+/* 逐行水平排列 */
+.form-horizontal .form-group { }
+.form-horizontal .control-label {
+	margin-bottom: 0;
+	padding-top: 7px;
+	text-align: right;
+}
+
+/* 附加样式：inline 排列 */
+.btn.inline, button.inline, input.inline, select.inline, textarea.inline, 
+.inline-group>.btn,.inline-group input, .inline-group select, .inline-group textarea { 
+	width:auto;
+}
+
+/* 附加样式：块级 排列*/
+.btn.block, button.block, input.block, select.block, textarea.block, 
+.block-group>.btn,.block-group input, .block-group select, .block-group textarea	{ 
+	width: 100%;
+}
+
+/* 附加样式: 高度和大小控制 xx-small | x-small | small | medium | large | x-large | xx-large*/
+.btn.small, button.small, input.small, select.small, 
+.small-group .btn, .small-group input, .small-group select, .small-group label	{ 
+	height:25px; line-height: 23px;
+}
+.btn.medium, button.medium, input.medium, ,select.medium,
+.medium-group .btn, .medium-group input, .medium-group select, .medium-group label	{
+	height:30px;line-height: 28px;
+}
+.btn.large, button.large, , input.large, ,select.large,
+.large-group .btn, .large-group input, .large-group select, .large-group label	{
+	height:40px; line-height: 38px;
+}
+textarea.medium {	height: 60px; }
+textarea.large 	{	height: 90px; }
+
+/* 按钮组 */
+.btn-group, .btn-group-vertical {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+}
+.btn-group-vertical > .btn, .btn-group > .btn {
+    float: left;
+    position: relative;
+}
+.btn-group > .btn:first-child {
+    margin-left: 0;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
+    border-radius: 0;
+}
+.btn-group > .btn:last-child:not(:first-child), .btn-group > .dropdown-toggle:not(:first-child) {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+}
+.btn-group .btn + .btn, .btn-group .btn + .btn-group, .btn-group .btn-group + .btn, .btn-group .btn-group + .btn-group {
+    margin-left: -1px;
+}
+
+
+/*********************************************************
+ * 全局-图片
+**********************************************************/
+.img-rounded {
+  border-radius: 6px;
+}
+.img-circle {
+  border-radius: 50%;
+  overflow: hidden;
+}
+.img-thumbnail {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: inline-block;
+  height: auto;
+  line-height: 1.42857;
+  max-width: 100%;
+  padding: 4px;
+  transition: all 0.2s ease-in-out 0s;
+}
+
+
+/*********************************************************
+ * 组件
+**********************************************************/
+/* 路径导航 */
+.breadcrumb {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  list-style: outside none none;
+  padding: 8px 15px;
+}
+.breadcrumb > li {
+  display: inline-block;
+}
+.breadcrumb > .active, .breadcrumb > li:last-child a {
+  color: #777;
+}
+.breadcrumb > li + li::before {
+  color: #ccc;
+  content: "/ ";
+  padding: 0 5px;
+}
+
+/* 组件-更多链接*/
+.more, .img-more {
+	display: inline-block;
+	float: right;
+	padding: 0;
+	z-index: 10;
+}
+.more a {
+	display: inline;
+	padding:0;
+}
+.more a:hover 	{ color: #19A97B; }
+.img-more 		{ border-radius: 50%; }
+.img-more a 	{ display:block; text-align:center; }
+
+/* 组件-tabs */
+.tabs-tit {
+	border-bottom: 1px solid #e9e9e9;
+    clear: both;
+    height: 40px;
+}
+.tabs-tit li, .tabs-tit > a {    
+    float: left;
+    height: 39px;
+    line-height:38px;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0 10px;
+	text-align: center;
+}
+.tabs-tit li.active, .tabs-tit > a.active {
+    border-bottom: 2px solid #dd6e4c;
+}
+.tabs-con > ul > li{
+	display:none;
+}
+.tabs-con > ul > li.active {
+	display: block;
+}
+
+/* 组件-step步骤 */
+.step-tit-box {
+	position: relative;
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+}
+.step-tit-box > .step {
+	position: relative;
+	top: 20px;
+	width: 100%;
+	height: 10px;
+	z-index:20;
+	float: left;
+	text-align: center;
+}
+.step-tit-box.steps-3 .step{
+	width: 50%;
+}
+.step-tit-box.steps-4 .step{
+	width: 33.33333333%;
+}
+.step-tit-box[class*=steps] > .step:last-child {
+	position:absolute;
+	right:0;
+	margin-right:0;
+	margin-left:0;
+	padding:0;
+	width: 50px;
+}
+.step-tit-box > .step i{
+	position: absolute;
+	z-index: 20;
+	display: block;
+	top: -20px;
+	height: 50px;
+	width: 50px;
+	background-color: #eee;	
+	border: 1px solid #eee;
+	border-radius: 50%;
+	word-wrap: break-word;
+}
+.step-tit-box > .step:first-child i,
+.step-tit-box > .step:last-child i{
+	left: 0;
+}
+.step-tit-box > .step i{
+	left: -25px;	
+}
+.step-tit-box > .step span{
+	position: absolute;
+	left:0;
+	z-index: 10;
+	display: block;
+	width: 100%;
+	height: 10px;
+	background-color: #eee;	
+	margin-top:0;
+}
+.step-tit-box > .step.finished i, .step-tit-box > .step.finished span{	
+	background-color: #dd6e4c;
+	border: 1px solid #dd6e4c;
+	color: #fff;
+}
+
+/* 组件-错误提示*/
+.error-tips{
+	color:#D9434E;padding:5px 10px;border:1px solid #D9434E;background:#FFF6D7;border-radius: 5px;
+	margin: 10px auto;
+	display:none;
+}
+.error-tips p{
+	padding: 3px 0px;
+}
+
+/*组件-图形验证码*/
+.captcha-box img, .captcha-box a {
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    width: auto;
+}
+
+/*组件-返回顶部按钮*/
+.scroll-to-top{
+	position:fixed;_position:absolute;z-index:9999;right:15px;bottom:50px;width:45px;height:45px;border-radius:50%;font-size:14px;
+	text-align:center;
+	border:solid 1px #cacaca;
+	cursor:pointer;
+	background:#fff;
+	text-align:center;
+	display:block;
+	filter:alpha(opacity=70);
+    -moz-opacity:0.7;
+    -khtml-opacity: 0.7;
+    opacity: 0.7;
+
+}
+.scroll-to-top.Offscreen{
+	display:none;
+	-moz-transition-duration:250ms;
+	-webkit-transition-duration:250ms;
+}
+.scroll-to-top i{text-align:center;font-size:20px;line-height:45px;color:#999;}
+
+/* 组件-swipe */
+.swipe{overflow:hidden;position:relative}
+.swipe-wrap{overflow:hidden;position:relative;}
+.swipe-wrap>div{float:left;width:100%;position:relative}
+.swipe-wrap img{width:100%;max-height:240px;min-height:120px}
+
+
+/* 组件-simple-dialog */
+.s-dialog-mask{position:absolute;left:0px;top:0px;background-color:rgb(20, 20, 20);filter:alpha(opacity=60);opacity: 0.6;width:100%;z-index:9998;}
+.s-dialog-wrapper{
+	border-radius: 5px;color:#fff;font-size:14px;position: fixed;z-index: 9999;
+	-webkit-transform-origin: 0px 0px; -webkit-transform: scale(1, 1); opacity: 1;	
+}
+.s-dialog-skin-green	{ background-color: #6cb248; border:1px solid #397908;}
+.s-dialog-skin-block	{ background-color: #000; color: #fff; filter:alpha(opacity=80); -moz-opacity:0.80;-khtml-opacity: 0.80;opacity :0.80;}
+.s-dialog-skin-red		{ background-color: #D9434E; border:1px solid #AD0909;}
+.s-dialog-skin-grey 	{ background-color: #f9f9f9;border:1px solid #ccc;color:#000; }
+.s-dialog-content		{ padding: 20px 20px;}
+.s-dialog-btn-wapper	{ margin-top: 15px; border-top: 1px solid rgba(130,128,127,.5);display: -webkit-box;display: -moz-box;display:box;width:100%;}
+.s-dialog-btn-wapper a	{ -moz-box-flex:1;box-flex:1;-webkit-box-flex:1;display:block; color: #fff;padding:15px 15px;text-align:center;}
+.s-dialog-skin-grey .s-dialog-btn-wapper a {color:#000;}
+
+
+/* 组件-分页 */
+.pagination 	{ text-align: center; }
+.pagination>li, .pagination>ul>li {
+	display:inline-block;
+}
+.pagination>a, .pagination>li>a{
+	display:inline-block;
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    padding: 0px 10px;
+}
+.pagination .disabled {
+    color: #ccc;
+}
+.pagination .active a, .pagination a:hover {
+	background: #ccc;  /*#19a97b;*/
+}
+/* 组件-进度条 */
+.progress {
+  height: 20px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+          box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+}
+.progress-bar {
+  float: left;
+  width: 0;
+  height: 100%;
+  font-size: 12px;
+  line-height: 20px;
+  color: #fff;
+  text-align: center;
+  background-color: #337ab7;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+          box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+  -webkit-transition: width .6s ease;
+       -o-transition: width .6s ease;
+          transition: width .6s ease;
+}
+.progress-striped .progress-bar,
+.progress-bar-striped {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+          background-size: 40px 40px;
+}
+.progress.active .progress-bar,
+.progress-bar.active {
+  -webkit-animation: progress-bar-stripes 2s linear infinite;
+       -o-animation: progress-bar-stripes 2s linear infinite;
+          animation: progress-bar-stripes 2s linear infinite;
+}
+.progress-bar-success {
+  background-color: #5cb85c;
+}
+.progress-striped .progress-bar-success {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+.progress-bar-info {
+  background-color: #5bc0de;
+}
+.progress-striped .progress-bar-info {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+.progress-bar-warning {
+  background-color: #f0ad4e;
+}
+.progress-striped .progress-bar-warning {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+.progress-bar-danger {
+  background-color: #d9534f;
+}
+.progress-striped .progress-bar-danger {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:      -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+  background-image:         linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+
+
+/* 组件 - 菜单/导航 */
+.leading {
+    background-color: #565656;
+    border-right: 2px solid #565656;
+    padding-left: 20px;
+}
+.leading a {padding: 0;}
+.menu .leading a:hover { background-color: #565656; }
+.menu { overflow: visible; }
+.menu>a,.menu>ul>li,.menu>li,.menu>ul>li,.menu>li>a .menu>div { 
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    padding: 0 5px;
+    overflow: visible;
+    position: relative;
+}
+.menu li:hover>ul {
+	display:block;
+}
+.menu.large a,.menu.large li, .menu.large div{
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 2.5rem;
+}
+/* 组件-下拉菜单*/
+.dropdown-menu {
+	background-clip: padding-box;
+	background-color: #fff;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 4px;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.176);
+	float: left;
+	left: 0;
+	list-style: outside none none;
+	margin: 0;
+	min-width: 160px;
+	padding: 5px 0;
+	position: absolute;
+	top: 100%;
+	z-index: 1000;
+	display: none;
+}
+.dropdown-menu .divider {
+    background-color: #e5e5e5;
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+}
+.dropdown-submenu .dropdown-menu {
+    border-top-left-radius: 0;
+    left: 100%;
+    margin-top: -6px;
+    top: 0;
+}
+/* 组件-标签，不是表单那个 label*/
+.label {
+	border-radius: 0.25em;
+	color: #fff;
+	display: inline;
+	font-size: 75%;
+	font-weight: 700;
+	line-height: 1;
+	padding: 0.2em 0.6em 0.3em;
+	text-align: center;
+	vertical-align: baseline;
+	white-space: nowrap;
+}
+
+/* 组件-关闭按钮 
+ * <button class="close" aria-label="Close" type="button">
+ *    <span aria-hidden="true">×</span>
+ * </button>
+*/
+.close {
+	color: #000;
+	float: right;
+	font-size: 21px;
+	font-weight: 700;
+	line-height: 1;
+	opacity: 0.2;
+	text-shadow: 0 1px 0 #fff;
+}
+button.close {
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+	border: 0 none;
+	cursor: pointer;
+	padding: 0;
+}
+/* 组件-Well
+ * 突出性说明内容块、欢迎块
+ * <div class="well">
+ *    ...
+ * </div>
+*/
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+}
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+button.close {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+/**
+ * 组件-面板 panel 
+**/
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.panel-heading {
+  padding: 10px 15px;
+  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.panel-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.1429rem;
+  color: inherit;
+}
+.panel-title > a,
+.panel-title > small,
+.panel-title > .small,
+.panel-title > small > a,
+.panel-title > .small > a {
+  color: inherit;
+}
+.panel-body {
+  padding: 15px;
+}
+.panel-footer {
+  padding: 10px 15px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.panel-heading > .dropdown .dropdown-toggle {
+  color: inherit;
+}
+.panel > .list-group,
+.panel > .panel-collapse > .list-group {
+  margin-bottom: 0;
+}
+.panel > .list-group .list-group-item,
+.panel > .panel-collapse > .list-group .list-group-item {
+  border-width: 1px 0;
+  border-radius: 0;
+}
+.panel > .list-group:first-child .list-group-item:first-child,
+.panel > .panel-collapse > .list-group:first-child .list-group-item:first-child {
+  border-top: 0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.panel > .list-group:last-child .list-group-item:last-child,
+.panel > .panel-collapse > .list-group:last-child .list-group-item:last-child {
+  border-bottom: 0;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.panel-heading + .list-group .list-group-item:first-child {
+  border-top-width: 0;
+}
+.list-group + .panel-footer {
+  border-top-width: 0;
+}
+.panel-group {
+  margin-bottom: 20px;
+}
+.panel-group .panel {
+  margin-bottom: 0;
+  border-radius: 4px;
+}
+.panel-group .panel + .panel {
+  margin-top: 5px;
+}
+.panel-group .panel-heading {
+  border-bottom: 0;
+}
+.panel-group .panel-heading + .panel-collapse > .panel-body,
+.panel-group .panel-heading + .panel-collapse > .list-group {
+  border-top: 1px solid #ddd;
+}
+.panel-group .panel-footer {
+  border-top: 0;
+}
+.panel-group .panel-footer + .panel-collapse .panel-body {
+  border-bottom: 1px solid #ddd;
+}
+.panel-default {
+  border-color: #ddd;
+}
+
+/* 组件-分隔线*/
+.line {
+    background: #eee none repeat;
+    font-size: 0;
+    height: 1px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    overflow: hidden;
+}
+.line.large {
+	margin-top: 15px;
+	margin-bootom: 15px;
+}
+/* 组件-空隙*/
+.space { 
+    margin: 10px 0;
+    max-height: 1px;
+    min-height: 1px;
+    overflow: hidden;
+}
+/* 文件类型 */
+.file-icon {
+	display: inline-blick;
+	text-align: center;
+	vertical-align: center;
+	min-width: 16px;
+}
+.file-icon.file-zip {
+	background-image: url(../images/fileicon/zip.gif);
+}
+/*********************************************************
+ * 辅助类，位置放在最后
+ * 一般是作为附加样式使用，主要是控制背景色、文本颜色、大小、边框、间隔、固定位置等
+ * 色调，使用 8 种不同颜色，可以同时命名同义词 normal=default, cancel=*
+ *    default, primary, success, info, warn, danger, light, deep, dark
+ *    
+ *    
+**********************************************************/
+/* 辅助类-文本-颜色 */
+.text-success	{ color: #3c763d; }
+.text-info		{ color: #31708f; }
+.text-warn 		{ color: #e38d13; }
+.text-danger, .text-em	{ color: #b92c28; }
+.text-light		{ color: #dff0d8; }
+.text-deep		{ color: #245580; }
+.text-dark		{ color: #777; }
+.text-green      { color: #00ae63; }
+.text-white, .text-white>a, .text-white>ul>li>a { color: #fff;}
+
+/* 辅助类-块-背景色 background */
+.bg-none    { background-color: transparent !important;}
+.bg-default, .bg-normal		{ background-color: #fff; color:#777 }
+.bg-primary { background-color: #19A97B; color: #fff; }
+.bg-success { background-color: #dff0d8; }
+.bg-info 	{ background-color: #d9edf7; }
+.bg-warn 	{ background-color: #fcf8e3; }
+.bg-x-warn	{ background-color: #dd6e4c; }
+.bg-danger 	{ background-color: #f2dede; }
+.bg-x-danger	{ background-color: #f05238;color:#fff;}
+.bg-light	{ background-color: #f9f9f9;}
+.bg-x-light, .btn.x-light	{ background-color: #f3f3f3;}
+.bg-deep 	{ background-color: #337ab7; color: #fff; }
+.bg-dark, .bg-dark>div { background-color: #565656; color: #fff; }
+.bg-black  { background-color: #000; color: #fff; }
+
+/* 辅助类-按钮-背景色 background*/
+.btn.default, .btn.cancel {	
+	background-image: linear-gradient(to bottom, #fff 0px, #e0e0e0 100%);
+    background-repeat: repeat-x;
+    text-shadow: 0 1px 0 #fff;
+    border-color: #ccc;
+    background-color: #fff;
+    color: #333;
+}
+.btn.success, .btn.primary {
+	background-image: linear-gradient(to bottom, #19A97B 0px, #419641 100%);
+	background-repeat: repeat-x;
+	border-color: #3e8f3e;
+	background-color: #19A97B;
+	color: #fff;
+}
+.btn.info {
+	background-image: linear-gradient(to bottom, #5bc0de 0px, #2aabd2 100%);
+	background-repeat: repeat-x;
+	border-color: #28a4c9;
+	background-color: #5bc0de;
+	color: #fff;
+}
+.btn.warn {
+	background-image: linear-gradient(to bottom, #f0ad4e 0px, #eb9316 100%);
+	background-repeat: repeat-x;
+	border-color: #e38d13;
+	background-color: #f0ad4e;
+    color: #fff;
+}
+.btn.danger {
+	background-image: linear-gradient(to bottom, #d9534f 0px, #c12e2a 100%);
+	background-repeat: repeat-x;
+	border-color: #b92c28;
+	background-color: #d9534f;
+    color: #fff;
+}
+.btn.light { border-color: #ccc; background-color: #f9f9f9; color: #777;}
+.btn.deep {
+  	background-image: linear-gradient(to bottom, #337ab7 0px, #265a88 100%);
+  	background-repeat: repeat-x;
+  	border-color: #245580;
+  	background-color: #337ab7;
+    color: #fff;
+}
+.btn.dark { border-color: #000; background-color: #7c8185; color: #fff;}
+.btn.disabled, button[disabled], fieldset[disabled] .btn {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+/* 辅助类-panel-主题颜色控制*/
+.panel-default > .panel-heading {
+  color: #333;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ddd;
+}
+.panel-default > .panel-heading .badge {
+  color: #f5f5f5;
+  background-color: #333;
+}
+.panel-default > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ddd;
+}
+.panel-primary {
+  border-color: #337ab7;
+}
+.panel-primary > .panel-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #337ab7;
+}
+.panel-primary > .panel-heading .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #337ab7;
+}
+.panel-success {
+  border-color: #d6e9c6;
+}
+.panel-success > .panel-heading {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.panel-success > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #d6e9c6;
+}
+.panel-success > .panel-heading .badge {
+  color: #dff0d8;
+  background-color: #3c763d;
+}
+.panel-success > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #d6e9c6;
+}
+.panel-info {
+  border-color: #bce8f1;
+}
+.panel-info > .panel-heading {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.panel-info > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #bce8f1;
+}
+.panel-info > .panel-heading .badge {
+  color: #d9edf7;
+  background-color: #31708f;
+}
+.panel-info > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #bce8f1;
+}
+.panel-warning {
+  border-color: #faebcc;
+}
+.panel-warning > .panel-heading {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+.panel-warning > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #faebcc;
+}
+.panel-warning > .panel-heading .badge {
+  color: #fcf8e3;
+  background-color: #8a6d3b;
+}
+.panel-warning > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #faebcc;
+}
+.panel-danger {
+  border-color: #ebccd1;
+}
+.panel-danger > .panel-heading {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.panel-danger > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ebccd1;
+}
+.panel-danger > .panel-heading .badge {
+  color: #f2dede;
+  background-color: #a94442;
+}
+.panel-danger > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ebccd1;
+}
+
+
+/* 辅助类-文本-字体和大小*/
+span.medium  { font-size: 1rem; line-height:1.2em; }
+span.large,.text-large	{ font-size: 1.5rem; line-height:1.5em; }
+span.x-large, .text-x-large	{ font-size: 2rem; line-height:1.5em; }
+.bold 		{ font-family: "微软雅黑"; font-size: 16px; }
+
+/* 辅助类-clear float*/
+.clr:before, .container:before, .row:before,
+.clr:after, .container:after, .row:after {
+    content: "​";
+    display: block;
+    height: 0;
+}
+.clr:after, .container:after, .row:after {
+    clear: both;visibility:hidden;
+}
+
+/* 辅助类-浮动 */
+.fl,.fleft{float: left !important;}
+.fr,.fright, .pull-right {float: right !important; margin-right:0;}
+
+/* 辅助类-撑开页面*/
+.push-bottom, .push-bottom-2{
+	margin-bottom: 100px;
+}
+.push-bottom-2{ margin-bottom:200px; }
+
+/* 辅助类-hide 和 show */
+.hide	{ display: none !important; }
+.show	{ display: block !important; }
+
+/* 辅助类-边框效果*/
+.border	{ border: 1px solid #e9e9e9; }
+.rounded-border { border: 1px solid #e9e9e9; border-radius: 0.1875rem; }
+
+/* 辅助类-圆角效果*/
+.rounded	{ border-radius: 0.1875rem; }
+.circle		{ border-radius: 100%; overflow: hidden;}
+
+/* 辅助类-清除margin样式*/
+.clear-mr{margin-right:0;}
+.clear-mt{margin-top:0}
+.clear-ml{margin-left:0}
+
+/* 辅助类-容器间隔控制*/
+.gap 		{ margin-top: 10px;}
+.x-gap      { margin-top: 20px;}
+.bottom-gap	{ margin-bottom: 10px; }
+.inner-gap	{ padding-top: 10px; padding-bottom: 10px;}
+.x-inner-gap { padding-top: 20px; padding-bottom: 20px; }
+
+
+
+/* 辅助类-元素块绝对在某位置，相对父元素*/
+.pin-tl, .pin-tr, .pin-bl, .pin-br{
+	position: absolute;
+}
+.pin-tl{ top:0; left:0;}
+.pin-tr{ top:0; right:0;}
+.pin-bl{ bottom:0; left:0;}
+.pin-br{ bottom:0; right:0;}
+
+.fix-br {
+	position: fixed;
+	overflow: hidden;
+}
+.fix-br { bottom: 50px; right: 50px;}
+
+.emerge_bottom {
+	background: rgba(0, 0, 0, 0.7) none repeat scroll 0 0;
+	color: #fff;
+	display: block;
+	height: 30px;
+	line-height: 30px;
+	position: relative;
+	text-align: center;
+}
